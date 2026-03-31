@@ -1,0 +1,22 @@
+{
+  "name": "mamba-coder",
+  "version": "1.0.0",
+  "description": "个人主页 - 结合温馨与技术感的现代化个人网站",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tsparticles/slim": "^3.9.1",
+    "@tsparticles/vue3": "^3.0.1",
+    "marked": "^17.0.5",
+    "vue": "^3.3.0",
+    "vue-router": "^4.2.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.0",
+    "vite": "^4.4.0"
+  }
+}
