@@ -33,7 +33,6 @@ Thumbs.db
 *.local
 
 # 后端服务（GitHub Pages 为纯静态托管，不需要后端）
-server/
 
 # 敏感数据
 data/
