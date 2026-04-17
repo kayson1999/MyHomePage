@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "type": "music",
+    "title": "人模狗样",
+    "category": "音乐",
+    "categoryKey": "music",
+    "date": "2025-03-02",
+    "excerpt": "一首关于现代职场生存状态的原创说唱，用犀利的歌词撕开体面生活的伪装。",
+    "tags": ["原创", "说唱", "Hip-Hop"],
+    "readTime": 3,
+    "audioFile": "人模狗样-20250302.mp3",
+    "lyricsFile": "人模狗样歌词.txt",
+    "coverColor": "linear-gradient(135deg, #FF4500 0%, #FF6B9D 50%, #B14EFF 100%)",
+    "enabled": true,
+    "pinned": true,
+    "order": 1
+  }
+]

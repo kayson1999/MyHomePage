@@ -1,0 +1,19 @@
+{
+  "hero": {
+    "badge": "> happy everday, happy everyway",
+    "titleLine1": "No Study No Money",
+    "titleLine2": "一切发生 皆有利于我",
+    "buttonSecondary": "关于我"
+  },
+  "terminal": {
+    "title": "~/mamba-coder",
+    "lines": [
+      { "prompt": "$", "content": "whoami", "type": "command" },
+      { "content": "backend_engineer | ai | game | cs/pubgm/naruto 高手", "type": "string" },
+      { "prompt": "$", "content": "echo $TECH_STACK", "type": "command" },
+      { "content": "Go · C++ · Python · Js · AIs...", "type": "string" },
+      { "prompt": "$", "content": "echo $PROJECT_EXP", "type": "command" },
+      { "content": "游戏小应用CGI · Serverless游戏云函数 · AI Infra · 用户社交 · IM", "type": "string" }
+    ]
+  }
+}

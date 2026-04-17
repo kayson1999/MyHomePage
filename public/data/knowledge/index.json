@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Agent Skill 设计心得 — 从原则到实践",
+    "filename": "agent-skill-design.md",
+    "description": "总结 Agent Skill 的写法原则与优化方式，以 Prometheus 监控查询 Skill 为例展示工具能力类 Skill 的完整设计思路和三种使用方式的实践样例。",
+    "category": "技术",
+    "tags": [
+      "AI",
+      "Skill",
+      "Agent",
+      "架构设计",
+      "Prometheus",
+      "Workflow"
+    ],
+    "createdAt": "2026-03-31",
+    "updatedAt": "2026-03-31",
+    "enabled": true
+  }
+]

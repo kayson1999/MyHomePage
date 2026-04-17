@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "username": "kayson",
+    "nickname": "Kayson",
+    "passwordHash": "1cdec1dd156868d4968bb34924c1db6a47e9346cec22d7e16c3a787d8c7e8a99",
+    "salt": "9e7ec4184f05718846449d2bcf13fd14",
+    "createdAt": "2026-03-29T14:06:33.340Z"
+  }
+]

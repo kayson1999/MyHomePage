@@ -1,0 +1,17 @@
+[
+  {
+    "id": "decisioner",
+    "name": "AI决策顾问-冲动是魔鬼",
+    "icon": "😈",
+    "description": "AI 决策推荐助手，帮你冷静分析「该不该做」「怎么选」，支持决策评估、竞品对比、SWOT 分析等",
+    "coverColor": "linear-gradient(135deg, #e94560, #0f3460)",
+    "tags": ["AI", "头脑风暴", "决策分析"],
+    "entryType": "external",
+    "envKey": "VITE_DECISIONER_URL",
+    "fallbackUrl": "/decisioner/",
+    "authMode": "none",
+    "enabled": true,
+    "pinned": true,
+    "order": 1
+  }
+]

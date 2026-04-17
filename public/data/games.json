@@ -1,0 +1,35 @@
+[
+  {
+    "id": "worker",
+    "name": "打工人打卡",
+    "icon": "👷",
+    "description": "趣味上下班打卡工具，记录工时、查看统计、争夺排行榜",
+    "coverColor": "linear-gradient(135deg, #F472B6, #A855F7)",
+    "tags": ["工贼鉴定仪", "趣味", "轻松"],
+
+    "entryType": "external",
+    "envKey": "VITE_WORKER_URL",
+    "fallbackUrl": "/worker/",
+    "authMode": "none",
+
+    "enabled": true,
+    "pinned": true,
+    "order": 1
+  },
+  {
+    "id": "zombie",
+    "name": "僵尸危机",
+    "icon": "🧟",
+    "description": "末日生存射击游戏，抵御僵尸潮，守护最后的防线",
+    "coverColor": "linear-gradient(135deg, #1a1a2e, #e94560)",
+    "tags": ["射击", "生存", "联机"],
+
+    "entryType": "iframe",
+    "url": "",
+    "authMode": "none",
+
+    "enabled": true,
+    "pinned": false,
+    "order": 10
+  }
+]
