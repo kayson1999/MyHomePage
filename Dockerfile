@@ -7,6 +7,26 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+ARG VITE_DECISIONER_URL
+ARG VITE_WORKER_URL
+ARG VITE_USER_CENTER_URL
+ARG VITE_APP_ID
+ARG VITE_ADMIN_TOKEN
+ARG VITE_GITHUB_OWNER
+ARG VITE_GITHUB_REPO
+ARG VITE_GITHUB_BRANCH
+ARG VITE_GITHUB_DATA_ROOT
+
+ENV VITE_DECISIONER_URL=$VITE_DECISIONER_URL \
+    VITE_WORKER_URL=$VITE_WORKER_URL \
+    VITE_USER_CENTER_URL=$VITE_USER_CENTER_URL \
+    VITE_APP_ID=$VITE_APP_ID \
+    VITE_ADMIN_TOKEN=$VITE_ADMIN_TOKEN \
+    VITE_GITHUB_OWNER=$VITE_GITHUB_OWNER \
+    VITE_GITHUB_REPO=$VITE_GITHUB_REPO \
+    VITE_GITHUB_BRANCH=$VITE_GITHUB_BRANCH \
+    VITE_GITHUB_DATA_ROOT=$VITE_GITHUB_DATA_ROOT
+
 # Copy frontend source code
 COPY package.json package-lock.json ./
 COPY index.html ./
@@ -27,9 +47,7 @@ FROM nginx:1.25-alpine
 
 # Copy build artifacts to Nginx default directory
 COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Custom Nginx configuration (optional)
-# COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

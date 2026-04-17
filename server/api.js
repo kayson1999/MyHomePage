@@ -17,6 +17,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const DATA_DIR = path.resolve(__dirname, '../public/data/knowledge')
 const DOCS_FILE = path.join(DATA_DIR, 'index.json')
 const NOTES_FILE = path.join(DATA_DIR, 'notes.json')
+const githubCache = new Map()
+const GITHUB_CACHE_TTL = 5 * 60 * 1000
 
 // 从 .env 文件手动读取环境变量（不依赖 dotenv）
 function loadEnvVar(key) {
@@ -31,8 +33,20 @@ function loadEnvVar(key) {
   }
 }
 
-const ADMIN_TOKEN = process.env.VITE_ADMIN_TOKEN || loadEnvVar('VITE_ADMIN_TOKEN')
-const USER_CENTER_URL = process.env.VITE_USER_CENTER_URL || loadEnvVar('VITE_USER_CENTER_URL') || 'http://127.0.0.1:4000'
+function getEnvVar(...keys) {
+  for (const key of keys) {
+    const value = process.env[key] || loadEnvVar(key)
+    if (value) return value
+  }
+  return ''
+}
+
+const ADMIN_TOKEN = getEnvVar('ADMIN_TOKEN', 'VITE_ADMIN_TOKEN')
+const USER_CENTER_URL = getEnvVar('USER_CENTER_URL', 'VITE_USER_CENTER_URL') || 'http://127.0.0.1:4000'
+const GITHUB_TOKEN = getEnvVar('GITHUB_TOKEN')
+const GITHUB_OWNER = getEnvVar('GITHUB_OWNER', 'VITE_GITHUB_OWNER')
+const GITHUB_REPO = getEnvVar('GITHUB_REPO', 'VITE_GITHUB_REPO')
+const GITHUB_BRANCH = getEnvVar('GITHUB_BRANCH', 'VITE_GITHUB_BRANCH') || 'main'
 const PORT = process.env.API_PORT || 3100
 
 const app = express()
@@ -62,9 +76,79 @@ app.get('/', (req, res) => {
       'POST /api/knowledge/notes',
       'DELETE /api/knowledge/notes/:id',
       'POST /api/knowledge/import',
+      'GET  /api/github?path=<repoPath>',
       '/api/auth/* → 反向代理到用户中心'
     ]
   })
+})
+
+// ==================== GitHub 数据中转 ====================
+
+function sendTextResponse(res, data, contentType) {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Content-Type', `${contentType}; charset=utf-8`)
+  return res.status(200).send(data)
+}
+
+app.get('/api/github', async (req, res) => {
+  const filePath = typeof req.query.path === 'string' ? req.query.path : ''
+
+  if (!filePath) {
+    return res.status(400).json({ error: '缺少 path 参数' })
+  }
+
+  if (!GITHUB_OWNER || !GITHUB_REPO) {
+    return res.status(500).json({ error: 'GitHub 仓库配置缺失，请配置 GITHUB_OWNER 和 GITHUB_REPO' })
+  }
+
+  const cacheKey = `${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/${filePath}`
+  const cached = githubCache.get(cacheKey)
+  if (cached && Date.now() - cached.timestamp < GITHUB_CACHE_TTL) {
+    res.setHeader('X-Cache', 'HIT')
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600')
+    return sendTextResponse(res, cached.data, cached.contentType)
+  }
+
+  try {
+    const encodedPath = filePath.split('/').map(encodeURIComponent).join('/')
+    const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodedPath}?ref=${GITHUB_BRANCH}`
+    const headers = {
+      Accept: 'application/vnd.github.v3.raw',
+      'User-Agent': 'MambaCoder-Homepage-API'
+    }
+
+    if (GITHUB_TOKEN) {
+      headers.Authorization = `Bearer ${GITHUB_TOKEN}`
+    }
+
+    const response = await fetch(apiUrl, { headers })
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        return res.status(404).json({ error: `文件不存在: ${filePath}` })
+      }
+      if (response.status === 403) {
+        return res.status(503).json({ error: 'GitHub API 速率限制，请稍后重试' })
+      }
+      return res.status(response.status).json({ error: `GitHub API 错误: ${response.statusText}` })
+    }
+
+    const contentType = filePath.endsWith('.json') ? 'application/json' : 'text/plain'
+    const data = await response.text()
+
+    githubCache.set(cacheKey, { data, contentType, timestamp: Date.now() })
+    if (githubCache.size > 100) {
+      const oldestKey = githubCache.keys().next().value
+      githubCache.delete(oldestKey)
+    }
+
+    res.setHeader('X-Cache', 'MISS')
+    res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600')
+    return sendTextResponse(res, data, contentType)
+  } catch (err) {
+    console.error('GitHub API 请求失败:', err.message)
+    return res.status(500).json({ error: '服务器内部错误', detail: err.message })
+  }
 })
 
 // ==================== 用户认证反向代理 ====================

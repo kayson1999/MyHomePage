@@ -27,6 +27,7 @@ RUN printf '{\n\
 
 # Copy server directory content
 COPY server/ ./server/
+COPY public/ ./public/
 
 # Copy config example file (do not copy .env with sensitive data)
 COPY .env.example ./

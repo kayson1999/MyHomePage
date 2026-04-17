@@ -546,28 +546,42 @@ export default {
   font-size: var(--text-base);
 }
 
-.reader-body h1 {
+.reader-body :deep(h1) {
   font-size: var(--text-2xl);
   font-weight: 700;
   color: var(--text-primary);
   margin: var(--space-6) 0 var(--space-3);
 }
 
-.reader-body h2 {
+.reader-body :deep(h2) {
   font-size: var(--text-xl);
   font-weight: 600;
   color: var(--text-primary);
   margin: var(--space-5) 0 var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-color);
 }
 
-.reader-body h3 {
+.reader-body :deep(h3) {
   font-size: var(--text-lg);
   font-weight: 600;
   color: var(--text-primary);
   margin: var(--space-4) 0 var(--space-2);
 }
 
-.reader-body blockquote {
+.reader-body :deep(h4) {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: var(--space-3) 0 var(--space-1);
+}
+
+.reader-body :deep(p) {
+  margin: var(--space-3) 0;
+  text-indent: 2em;
+}
+
+.reader-body :deep(blockquote) {
   border-left: 3px solid var(--neon-cyan);
   padding: var(--space-2) var(--space-4);
   margin: var(--space-4) 0;
@@ -576,7 +590,7 @@ export default {
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
-.reader-body pre {
+.reader-body :deep(pre) {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -585,7 +599,7 @@ export default {
   margin: var(--space-4) 0;
 }
 
-.reader-body pre code {
+.reader-body :deep(pre code) {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   color: var(--neon-green);
@@ -593,7 +607,7 @@ export default {
   padding: 0;
 }
 
-.reader-body code {
+.reader-body :deep(code) {
   font-family: var(--font-mono);
   font-size: 0.9em;
   background: rgba(0, 255, 136, 0.08);
@@ -602,18 +616,81 @@ export default {
   border-radius: var(--radius-sm);
 }
 
-.reader-body ul {
+.reader-body :deep(ul),
+.reader-body :deep(ol) {
   padding-left: var(--space-6);
   margin: var(--space-3) 0;
 }
 
-.reader-body li {
-  margin-bottom: var(--space-1);
+.reader-body :deep(ol) {
+  list-style-type: decimal;
 }
 
-.reader-body strong {
+.reader-body :deep(ul ul),
+.reader-body :deep(ol ol),
+.reader-body :deep(ul ol),
+.reader-body :deep(ol ul) {
+  margin: var(--space-1) 0;
+  padding-left: var(--space-5);
+}
+
+.reader-body :deep(li) {
+  margin-bottom: var(--space-1);
+  line-height: 1.8;
+}
+
+.reader-body :deep(li > p) {
+  margin: var(--space-1) 0;
+}
+
+.reader-body :deep(strong) {
   color: var(--text-primary);
   font-weight: 600;
+}
+
+.reader-body :deep(a) {
+  color: var(--neon-cyan);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 245, 255, 0.3);
+  transition: all 0.2s;
+}
+
+.reader-body :deep(a:hover) {
+  color: var(--neon-green);
+  border-bottom-color: var(--neon-green);
+}
+
+.reader-body :deep(hr) {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: var(--space-6) 0;
+}
+
+.reader-body :deep(table) {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-4) 0;
+  font-size: var(--text-sm);
+}
+
+.reader-body :deep(th),
+.reader-body :deep(td) {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.reader-body :deep(th),
+.reader-body :deep(tr:first-child td) {
+  font-weight: 600;
+  color: var(--text-primary);
+  background: rgba(168, 85, 247, 0.06);
+}
+
+.reader-body :deep(img) {
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  margin: var(--space-4) 0;
 }
 
 .reader-footer {
